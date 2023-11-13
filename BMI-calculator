@@ -1,0 +1,55 @@
+from tkinter import *
+import tkinter as tk
+
+
+def calculate():
+    height=slider1.get()
+    weight=slider2.get()
+    bmi = weight / (height / 100) ** 2
+
+    if bmi <= 18.5 :
+        result.config(text=f"your BMI is {bmi}\n you are underweight")
+    elif 18.5< bmi < 25 :
+        result.config(text=f"your BMI is {bmi}\n you are healthy")
+    elif bmi > 25:
+        result.config(text=f"your BMI is {bmi}\n you are overweight (obese)")
+
+
+ui=Tk()
+ui.title("Oasis Infobyte (internship)")
+ui.geometry("300x450")
+ui.resizable(False, False)
+
+f0=Frame(ui, bg="white", borderwidth=6)
+f0.pack()
+htext=Label(f0, text="BMI CALCULATOR", fg="blue", bg="white", font="Aerial 19 bold")
+htext.pack(padx=30)
+
+f1=Frame(ui, bg="white", borderwidth=6)
+f1.place(x=0, y=48)
+htext=Label(f1, text="HEIGHT (cm's)", fg="black",bg="white", font="Aerial 12 bold")
+htext.pack(pady=30)
+slider1=tk.Scale(f1, from_=0, to=230, orient="vertical", length=140)
+slider1.pack(padx=50)
+
+f2=Frame(ui, bg="white", borderwidth=6)
+f2.place(x=150, y=48)
+htext=Label(f2, text="WEIGHT (kg's)", fg="black",bg="white", font="Aerial 12 bold")
+htext.pack(pady=30)
+slider2=tk.Scale(f2, from_=0, to=200, orient="vertical", length=140)
+slider2.pack(padx=50)
+
+f3=Frame(ui,bg="white")
+f3.place(y=280)
+b=Button(f3,text="GET RESULTS",bg="white", fg="green", font="arial 12 bold", command=calculate)
+b.pack(pady=20, padx=85)
+
+frame_width=300
+frame_height=100
+f4=Frame(ui, bg="yellow", borderwidth=6, width=frame_width, height=frame_height)
+f4.place(y=350)
+
+result=Label(ui,text="", font="arial 12 bold", bg="yellow", fg="black")
+result.place(x=30, y=380)
+
+ui.mainloop()
