@@ -1,0 +1,76 @@
+import tkinter.ttk
+from tkinter import *
+import requests
+from PIL import ImageTk , Image
+
+def f2():
+    """this function is called when >get weather< button is clicked, it displays a frame which consists of weather information"""
+    frame2=Frame(ui)
+    frame2.configure(bg="lightblue",width=300,height=300)
+    frame2.propagate(False)
+    frame2.place(y=50)
+
+    weather=Label(frame2,text="Weather :",font="arial 12 bold",bg="lightblue",fg="black")
+    weather.place(x=15,y=20)
+    weather_r = Label(frame2, text="", font="arial 12 bold", bg="lightblue", fg="white")
+    weather_r.place(x=150, y=20)
+
+    temperature = Label(frame2, text="Temperature :", font="arial 12 bold",bg="lightblue",fg="black")
+    temperature.place(x=15,y=60)
+    temperature_r= Label(frame2, text="", font="arial 12 bold", bg="lightblue", fg="white")
+    temperature_r.place(x=150, y=60)
+
+    pressure=Label(frame2,text="Pressure :",font="arial 12 bold",bg="lightblue",fg="black")
+    pressure.place(x=15,y=100)
+    pressure_r = Label(frame2, text="", font="arial 12 bold", bg="lightblue", fg="white")
+    pressure_r.place(x=150, y=100)
+
+    humidity=Label(frame2,text="Humidity :",font="arial 12 bold",bg="lightblue",fg="black")
+    humidity.place(x=15,y=140)
+    humidity_r = Label(frame2, text="", font="arial 12 bold", bg="lightblue", fg="white")
+    humidity_r.place(x=150, y=140)
+
+    windspeed = Label(frame2, text="Wind Speed :", font=("arial" ,12, "bold"),bg="lightblue",fg="black")
+    windspeed.place(x=15, y=180)
+    windspeed_r = Label(frame2, text="", font=("arial" ,12,"bold" ), bg="lightblue", fg="white")
+    windspeed_r.place(x=150, y=180)
+
+    city = cityname.get()
+    data = requests.get(
+        f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid=f80454e8694580f0740f9a511461da8a").json()
+    weather_r.config(text=data["weather"][0]["description"])
+    temperature_r.config(text=data["main"]["temp"])
+    pressure_r.config(text=data["main"]["pressure"])
+    humidity_r.config(text=data["main"]["humidity"])
+    windspeed_r.config(text=data["wind"]["speed"])
+########################################################################################################################
+ui=Tk()
+ui.geometry("300x300")
+ui.title("Oasis infobyte ( internship )")
+ui.config(bg="lightblue")
+ui.maxsize(500,400)
+
+txt=Label(ui,text="Weather Application",bg="lightblue",fg="black",font=("Lucida Handwriting" ,15,"italic"))
+txt.pack()
+frame1=Frame(ui,bg="lightblue")
+frame1.pack(padx=10)
+
+country=Label(frame1,text="select or enter city name",bg="lightblue",font=("arial" ,12 ,"italic"))
+country.pack(pady=10)
+
+city_list=["Hyderabad","Warangal","Nizamabad","Karimnagar","Ramagundam","Khammam","Mahbubnagar","Nalgonda","Adilabad","Siddipet","Miryalaguda"]
+
+cityname=StringVar()
+
+cities=tkinter.ttk.Combobox(frame1,values=city_list,font="arial 10",textvariable=cityname)
+cities.pack()
+
+bt1=Button(ui,text="Get Weather Info",command=f2,font="timenewroman 8 italic",borderwidth=5)
+bt1.pack(pady=5)
+image_path="weather.jpg"
+img=Image.open(image_path)
+img=ImageTk.PhotoImage(img)
+image_p=Label(ui,image=img)
+image_p.place(y=150)
+
+ui.mainloop()
